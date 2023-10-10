@@ -1,0 +1,59 @@
+﻿@model LPS_CRUD.Models.Produk
+
+@{
+   Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Produk</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.nama_barang)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.nama_barang)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.kode_barang)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.kode_barang)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.jumlah_barang)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.jumlah_barang)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.tanggal)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.tanggal)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
+</body>
+</html>
