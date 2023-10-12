@@ -13,6 +13,6 @@ Point A. Test .NET Core MVC - LPS - MSBU
    }
 ```
 
-4. Jalankan aplikasi dengan menekan tombol RUN pada visual studio code
+4. Jalankan aplikasi dengan menekan tombol RUN pada visual studio
 
 5. Untuk Melihat Vidio demo aplikasi dapa dilihat di folder "Video"
