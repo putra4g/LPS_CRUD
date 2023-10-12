@@ -9,7 +9,7 @@ Point A. Test .NET Core MVC - LPS - MSBU
 3. Ubah connection string pada file appsettings.json menjadi seperti ini :
 ```
    "ConnectionStrings": {
-     "MysqlconnectionString": "Server=localhost,Port=3306;Database=[NamaDataBase];User=[NamaUser];Password=[PasswordDataBase];"
+     "MysqlconnectionString": "Server=localhost,Port=3306;Database=[NamaDataBase];Uid=[NamaUser];Pwd=[PasswordDataBase];"
    }
 ```
 
