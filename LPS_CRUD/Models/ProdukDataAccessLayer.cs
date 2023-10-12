@@ -1,17 +1,26 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data;
-
+using Microsoft.Extensions.Configuration;
+using System.IO;
 namespace LPS_CRUD.Models
 {
-	public class ProdukDataAccessLayer
-	{
-        string connectionString = "Server=localhost;Port=3306;Database=lps;Uid=root;Pwd=P@ssw0rdSam10;";
+    public class ProdukDataAccessLayer
+    {
+        private string GetConnStr()
+        {
+        string c = Directory.GetCurrentDirectory();
+        IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(c).AddJsonFile("appsettings.json").Build();
+        string connectionStringIs = configuration.GetConnectionString("MysqlconnectionString");
+            return connectionStringIs;
+        }
+
+
         //To View all Produk details    
         public IEnumerable<Produk> GetAllProduk()
         {
             List<Produk> lstProduk = new List<Produk>();
 
-            using (MySqlConnection con = new MySqlConnection(connectionString))
+            using (MySqlConnection con = new MySqlConnection(GetConnStr()))
             {
                 MySqlCommand cmd = new MySqlCommand("usp_getall_produk", con);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -36,10 +45,40 @@ namespace LPS_CRUD.Models
             return lstProduk;
         }
 
+        public IEnumerable<Produk> SearchProduk(string searchString)
+        {
+            List<Produk> lstProduk = new List<Produk>();
+
+            using (MySqlConnection con = new MySqlConnection(GetConnStr()))
+            {
+                MySqlCommand cmd = new MySqlCommand("usp_search_produk", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@p_search_value", searchString);
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    Produk Produk = new Produk();
+
+                    Produk.id = Convert.ToInt32(rdr["id"]);
+                    Produk.nama_barang = rdr["nama_barang"].ToString();
+                    Produk.kode_barang = rdr["kode_barang"].ToString();
+                    Produk.jumlah_barang = Convert.ToInt32(rdr["jumlah_barang"]);
+                    Produk.tanggal = Convert.ToDateTime(rdr["tanggal"]);
+
+                    lstProduk.Add(Produk);
+                }
+                con.Close();
+            }
+            return lstProduk;
+        }
+
         //To Add new Produk record    
         public void AddProduk(Produk produk)
         {
-            using (MySqlConnection con = new MySqlConnection(connectionString))
+            using (MySqlConnection con = new MySqlConnection(GetConnStr()))
             {
                 MySqlCommand cmd = new MySqlCommand("usp_insert_produk", con);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -58,7 +97,7 @@ namespace LPS_CRUD.Models
         //To Update the records of a particluar Produk  
         public void UpdateProduk(Produk Produk)
         {
-            using (MySqlConnection con = new MySqlConnection(connectionString))
+            using (MySqlConnection con = new MySqlConnection(GetConnStr()))
             {
                 MySqlCommand cmd = new MySqlCommand("usp_update_produk", con);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -80,7 +119,7 @@ namespace LPS_CRUD.Models
         {
             Produk produk = new Produk();
 
-            using (MySqlConnection con = new MySqlConnection(connectionString))
+            using (MySqlConnection con = new MySqlConnection(GetConnStr()))
             {
 
                 MySqlCommand cmd = new MySqlCommand("usp_get_produk_byid", con);
@@ -106,7 +145,7 @@ namespace LPS_CRUD.Models
         public void DeleteProduk(int? id)
         {
 
-            using (MySqlConnection con = new MySqlConnection(connectionString))
+            using (MySqlConnection con = new MySqlConnection(GetConnStr()))
             {
                 MySqlCommand cmd = new MySqlCommand("usp_delete_produk", con);
                 cmd.CommandType = CommandType.StoredProcedure;

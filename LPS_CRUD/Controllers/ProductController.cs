@@ -9,10 +9,20 @@ namespace LPS_CRUD.Controllers
 		ProdukDataAccessLayer objProdukDAL = new ProdukDataAccessLayer();
 
 		// GET: ProductController
-		public ActionResult Index()
+		public ActionResult Index(string searchString)
 		{
+			ViewData["CurrentFilter"] = searchString;
+
 			List<Produk> produks = new List<Produk>();
-			produks = objProdukDAL.GetAllProduk().ToList();
+			if (!String.IsNullOrEmpty(searchString))
+			{
+				produks = objProdukDAL.SearchProduk(searchString).ToList();
+			}
+			else
+			{
+				
+				produks = objProdukDAL.GetAllProduk().ToList();
+			}
 			return View(produks);
 		}
 

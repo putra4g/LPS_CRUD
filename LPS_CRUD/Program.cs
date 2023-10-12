@@ -2,6 +2,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+IConfiguration configuration = new ConfigurationBuilder()
+							.AddJsonFile("appsettings.json")
+							.Build();
+var connectionStringx = configuration["mysqlconnection:connectionString"];
 
 var app = builder.Build();
 
